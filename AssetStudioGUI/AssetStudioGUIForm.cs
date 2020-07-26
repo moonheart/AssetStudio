@@ -99,6 +99,35 @@ namespace AssetStudioGUI
             Logger.Default = new GUILogger(StatusStripUpdate);
             Progress.Default = new GUIProgress(SetProgressBarValue);
             Studio.StatusStripUpdate = StatusStripUpdate;
+
+            this.AllowDrop = true;
+            this.DragEnter += AssetStudioGUIForm_DragEnter;
+            this.DragDrop += AssetStudioGUIForm_DragDrop;
+        }
+
+        private void AssetStudioGUIForm_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Move;
+        }
+
+        private async void AssetStudioGUIForm_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] paths = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (paths.Length > 0)
+            {
+                ResetForm();
+
+                if (paths.Length == 1 && Directory.Exists(paths[0]))
+                {
+                    await Task.Run(() => assetsManager.LoadFolder(paths[0]));
+                }
+                else
+                {
+                    await Task.Run(() => assetsManager.LoadFiles(paths));
+                }
+
+                BuildAssetStructures();
+            }
         }
 
         private async void loadFile_Click(object sender, EventArgs e)
@@ -442,7 +471,7 @@ namespace AssetStudioGUI
 
         private void treeSearch_Leave(object sender, EventArgs e)
         {
-            if (treeSearch.Text == "")
+            if (string.IsNullOrEmpty(treeSearch.Text))
             {
                 treeSearch.Text = " Search ";
                 treeSearch.ForeColor = SystemColors.GrayText;
@@ -512,7 +541,7 @@ namespace AssetStudioGUI
 
         private void listSearch_Leave(object sender, EventArgs e)
         {
-            if (listSearch.Text == "")
+            if (string.IsNullOrEmpty(listSearch.Text))
             {
                 enableFiltering = false;
                 listSearch.Text = " Filter ";
@@ -562,6 +591,15 @@ namespace AssetStudioGUI
                     var asf = a.FullSize;
                     var bsf = b.FullSize;
                     return reverseSort ? bsf.CompareTo(asf) : asf.CompareTo(bsf);
+                });
+            }
+            else if (sortColumn == 3) // PathID
+            {
+                visibleAssets.Sort((x, y) =>
+                {
+                    long pathID_X = x.m_PathID;
+                    long pathID_Y = y.m_PathID;
+                    return reverseSort ? pathID_Y.CompareTo(pathID_X) : pathID_X.CompareTo(pathID_Y);
                 });
             }
             else
@@ -1212,6 +1250,11 @@ namespace AssetStudioGUI
         private void exportSelectedAssetsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ExportAssets(2, ExportType.Convert);
+        }
+
+        private void dumpSelectedAssetsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExportAssets(2, ExportType.Dump);
         }
 
         private void showOriginalFileToolStripMenuItem_Click(object sender, EventArgs e)

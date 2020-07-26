@@ -12,6 +12,7 @@ namespace AssetStudioGUI
     {
         public static bool ExportTexture2D(AssetItem item, string exportPathName)
         {
+            string exportFullName;
             var m_Texture2D = (Texture2D)item.Asset;
             if (Properties.Settings.Default.convertTexture)
             {
@@ -36,7 +37,10 @@ namespace AssetStudioGUI
                         tga = true;
                         break;
                 }
-                var exportFullName = exportPathName + item.Text + "." + ext.ToLower();
+                if (Properties.Settings.Default.pathIDAsImageName)
+                    exportFullName = exportPathName + item.m_PathID.ToString() + "." + ext.ToLower();
+                else
+                    exportFullName = exportPathName + item.Text + "." + ext.ToLower();
                 if (ExportFileExists(exportFullName))
                     return false;
                 if (tga)
@@ -51,7 +55,10 @@ namespace AssetStudioGUI
             }
             else
             {
-                var exportFullName = exportPathName + item.Text + ".tex";
+                if (Properties.Settings.Default.pathIDAsImageName)
+                    exportFullName = exportPathName + item.m_PathID.ToString() + ".tex";
+                else
+                    exportFullName = exportPathName + item.Text + ".tex";
                 if (ExportFileExists(exportFullName))
                     return false;
                 File.WriteAllBytes(exportFullName, m_Texture2D.image_data.GetData());
@@ -267,6 +274,7 @@ namespace AssetStudioGUI
         public static bool ExportSprite(AssetItem item, string exportPath)
         {
             ImageFormat format = null;
+            string exportFullName;
             var type = Properties.Settings.Default.convertType;
             bool tga = false;
             switch (type)
@@ -284,7 +292,10 @@ namespace AssetStudioGUI
                     tga = true;
                     break;
             }
-            var exportFullName = exportPath + item.Text + "." + type.ToLower();
+            if (Properties.Settings.Default.pathIDAsImageName)
+                exportFullName = exportPath + item.m_PathID.ToString() + "." + type.ToLower();
+            else
+                exportFullName = exportPath + item.Text + "." + type.ToLower();
             if (ExportFileExists(exportFullName))
                 return false;
             var bitmap = ((Sprite)item.Asset).GetImage();

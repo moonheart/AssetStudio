@@ -40,7 +40,7 @@ namespace AssetStudioGUI
                 hItem = node.Handle,
                 mask = TVIF_STATE,
                 stateMask = TVIS_STATEIMAGEMASK,
-                state = 0
+                state = node.StateImageIndex //freeze bugfix (no)
             };
             SendMessage(node.TreeView.Handle, TVM_SETITEM, IntPtr.Zero, ref tvi);
         }
