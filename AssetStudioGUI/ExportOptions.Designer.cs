@@ -31,6 +31,8 @@
             this.OKbutton = new System.Windows.Forms.Button();
             this.Cancel = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.pathIDAsDumpName = new System.Windows.Forms.CheckBox();
+            this.pathIDAsImageName = new System.Windows.Forms.CheckBox();
             this.openAfterExport = new System.Windows.Forms.CheckBox();
             this.restoreExtensionName = new System.Windows.Forms.CheckBox();
             this.assetGroupOptions = new System.Windows.Forms.ComboBox();
@@ -59,7 +61,6 @@
             this.castToBone = new System.Windows.Forms.CheckBox();
             this.exportAllNodes = new System.Windows.Forms.CheckBox();
             this.eulerFilter = new System.Windows.Forms.CheckBox();
-            this.pathIDAsImageName = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -92,6 +93,7 @@
             // groupBox1
             // 
             this.groupBox1.AutoSize = true;
+            this.groupBox1.Controls.Add(this.pathIDAsDumpName);
             this.groupBox1.Controls.Add(this.pathIDAsImageName);
             this.groupBox1.Controls.Add(this.openAfterExport);
             this.groupBox1.Controls.Add(this.restoreExtensionName);
@@ -102,10 +104,34 @@
             this.groupBox1.Controls.Add(this.converttexture);
             this.groupBox1.Location = new System.Drawing.Point(12, 13);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(232, 327);
+            this.groupBox1.Size = new System.Drawing.Size(246, 327);
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Export";
+            // 
+            // pathIDAsDumpName
+            // 
+            this.pathIDAsDumpName.AutoSize = true;
+            this.pathIDAsDumpName.Checked = true;
+            this.pathIDAsDumpName.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.pathIDAsDumpName.Location = new System.Drawing.Point(6, 217);
+            this.pathIDAsDumpName.Name = "pathIDAsDumpName";
+            this.pathIDAsDumpName.Size = new System.Drawing.Size(201, 17);
+            this.pathIDAsDumpName.TabIndex = 12;
+            this.pathIDAsDumpName.Text = "Dump assets with PathID as filename";
+            this.pathIDAsDumpName.UseVisualStyleBackColor = true;
+            // 
+            // pathIDAsImageName
+            // 
+            this.pathIDAsImageName.AutoSize = true;
+            this.pathIDAsImageName.Checked = true;
+            this.pathIDAsImageName.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.pathIDAsImageName.Location = new System.Drawing.Point(6, 196);
+            this.pathIDAsImageName.Name = "pathIDAsImageName";
+            this.pathIDAsImageName.Size = new System.Drawing.Size(234, 17);
+            this.pathIDAsImageName.TabIndex = 11;
+            this.pathIDAsImageName.Text = "Export image assets with PathID as filename";
+            this.pathIDAsImageName.UseVisualStyleBackColor = true;
             // 
             // openAfterExport
             // 
@@ -250,9 +276,9 @@
             this.groupBox2.Controls.Add(this.castToBone);
             this.groupBox2.Controls.Add(this.exportAllNodes);
             this.groupBox2.Controls.Add(this.eulerFilter);
-            this.groupBox2.Location = new System.Drawing.Point(250, 13);
+            this.groupBox2.Location = new System.Drawing.Point(258, 13);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(214, 327);
+            this.groupBox2.Size = new System.Drawing.Size(206, 327);
             this.groupBox2.TabIndex = 11;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Fbx";
@@ -449,18 +475,6 @@
             this.eulerFilter.Text = "EulerFilter";
             this.eulerFilter.UseVisualStyleBackColor = true;
             // 
-            // pathIDAsImageName
-            // 
-            this.pathIDAsImageName.AutoSize = true;
-            this.pathIDAsImageName.Checked = true;
-            this.pathIDAsImageName.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.pathIDAsImageName.Location = new System.Drawing.Point(6, 196);
-            this.pathIDAsImageName.Name = "pathIDAsImageName";
-            this.pathIDAsImageName.Size = new System.Drawing.Size(212, 17);
-            this.pathIDAsImageName.TabIndex = 11;
-            this.pathIDAsImageName.Text = "Use PathID as a name for image assets";
-            this.pathIDAsImageName.UseVisualStyleBackColor = true;
-            // 
             // ExportOptions
             // 
             this.AcceptButton = this.OKbutton;
@@ -527,5 +541,6 @@
         private System.Windows.Forms.CheckBox restoreExtensionName;
         private System.Windows.Forms.CheckBox openAfterExport;
         private System.Windows.Forms.CheckBox pathIDAsImageName;
+        private System.Windows.Forms.CheckBox pathIDAsDumpName;
     }
 }

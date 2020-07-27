@@ -375,7 +375,15 @@ namespace AssetStudioGUI
 
         public static bool ExportDumpFile(AssetItem item, string exportPath)
         {
-            var exportFullName = exportPath + item.Text + ".txt";
+            string exportFullName;
+            if (Properties.Settings.Default.pathIDAsDumpName)
+            {
+                exportFullName = exportPath + item.m_PathID.ToString() + ".txt";
+            }
+            else
+            {
+                exportFullName = exportPath + item.Text + ".txt";
+            }
             if (ExportFileExists(exportFullName))
                 return false;
             var str = item.Asset.Dump();

@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace AssetStudioGUI
@@ -41,6 +34,7 @@ namespace AssetStudioGUI
             fbxVersion.SelectedIndex = Properties.Settings.Default.fbxVersion;
             fbxFormat.SelectedIndex = Properties.Settings.Default.fbxFormat;
             pathIDAsImageName.Checked = Properties.Settings.Default.pathIDAsImageName;
+            pathIDAsDumpName.Checked = Properties.Settings.Default.pathIDAsDumpName;
         }
 
         private void OKbutton_Click(object sender, EventArgs e)
@@ -70,6 +64,7 @@ namespace AssetStudioGUI
             Properties.Settings.Default.fbxVersion = fbxVersion.SelectedIndex;
             Properties.Settings.Default.fbxFormat = fbxFormat.SelectedIndex;
             Properties.Settings.Default.pathIDAsImageName = pathIDAsImageName.Checked;
+            Properties.Settings.Default.pathIDAsDumpName = pathIDAsDumpName.Checked;
             Properties.Settings.Default.Save();
             DialogResult = DialogResult.OK;
             Close();

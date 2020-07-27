@@ -274,5 +274,17 @@ namespace AssetStudioGUI.Properties {
                 this["pathIDAsImageName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool pathIDAsDumpName {
+            get {
+                return ((bool)(this["pathIDAsDumpName"]));
+            }
+            set {
+                this["pathIDAsDumpName"] = value;
+            }
+        }
     }
 }
