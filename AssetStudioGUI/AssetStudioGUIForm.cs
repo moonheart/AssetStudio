@@ -1199,6 +1199,8 @@ namespace AssetStudioGUI
             reverseSort = false;
             enableFiltering = false;
             listSearch.Text = " Filter ";
+            if (tabControl1.SelectedIndex == 1)
+                assetListView.Select();
 
             var count = filterTypeToolStripMenuItem.DropDownItems.Count;
             for (var i = 1; i < count; i++)

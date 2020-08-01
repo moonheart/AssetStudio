@@ -113,10 +113,10 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportSelectedAssetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dumpSelectedAssetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportAnimatorwithselectedAnimationClipMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.goToSceneHierarchyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showOriginalFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dumpSelectedAssetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -468,7 +468,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.classPreviewPanel);
             this.splitContainer1.Panel2.Controls.Add(this.statusStrip1);
             this.splitContainer1.Panel2MinSize = 400;
-            this.splitContainer1.Size = new System.Drawing.Size(1264, 714);
+            this.splitContainer1.Size = new System.Drawing.Size(1264, 657);
             this.splitContainer1.SplitterDistance = 482;
             this.splitContainer1.TabIndex = 2;
             this.splitContainer1.TabStop = false;
@@ -483,7 +483,7 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.Padding = new System.Drawing.Point(17, 3);
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(480, 690);
+            this.tabControl1.Size = new System.Drawing.Size(480, 633);
             this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl1.TabIndex = 0;
             this.tabControl1.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabPageSelected);
@@ -494,7 +494,7 @@
             this.tabPage1.Controls.Add(this.treeSearch);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(472, 664);
+            this.tabPage1.Size = new System.Drawing.Size(472, 607);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Scene Hierarchy";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -506,7 +506,7 @@
             this.sceneTreeView.HideSelection = false;
             this.sceneTreeView.Location = new System.Drawing.Point(0, 20);
             this.sceneTreeView.Name = "sceneTreeView";
-            this.sceneTreeView.Size = new System.Drawing.Size(472, 644);
+            this.sceneTreeView.Size = new System.Drawing.Size(472, 587);
             this.sceneTreeView.TabIndex = 1;
             this.sceneTreeView.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.sceneTreeView_AfterCheck);
             // 
@@ -530,7 +530,7 @@
             this.tabPage2.Controls.Add(this.listSearch);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(472, 661);
+            this.tabPage2.Size = new System.Drawing.Size(472, 664);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Asset List";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -549,7 +549,7 @@
             this.assetListView.HideSelection = false;
             this.assetListView.Location = new System.Drawing.Point(0, 20);
             this.assetListView.Name = "assetListView";
-            this.assetListView.Size = new System.Drawing.Size(472, 641);
+            this.assetListView.Size = new System.Drawing.Size(472, 644);
             this.assetListView.TabIndex = 1;
             this.assetListView.UseCompatibleStateImageBehavior = false;
             this.assetListView.View = System.Windows.Forms.View.Details;
@@ -601,7 +601,7 @@
             this.tabPage3.Controls.Add(this.classesListView);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(472, 661);
+            this.tabPage3.Size = new System.Drawing.Size(472, 664);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Asset Classes";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -617,7 +617,7 @@
             this.classesListView.Location = new System.Drawing.Point(0, 0);
             this.classesListView.MultiSelect = false;
             this.classesListView.Name = "classesListView";
-            this.classesListView.Size = new System.Drawing.Size(472, 661);
+            this.classesListView.Size = new System.Drawing.Size(472, 664);
             this.classesListView.TabIndex = 0;
             this.classesListView.UseCompatibleStateImageBehavior = false;
             this.classesListView.View = System.Windows.Forms.View.Details;
@@ -639,7 +639,7 @@
             // 
             this.progressbarPanel.Controls.Add(this.progressBar1);
             this.progressbarPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.progressbarPanel.Location = new System.Drawing.Point(0, 690);
+            this.progressbarPanel.Location = new System.Drawing.Point(0, 633);
             this.progressbarPanel.Name = "progressbarPanel";
             this.progressbarPanel.Padding = new System.Windows.Forms.Padding(1, 3, 1, 1);
             this.progressbarPanel.Size = new System.Drawing.Size(480, 22);
@@ -667,7 +667,7 @@
             this.previewPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.previewPanel.Location = new System.Drawing.Point(0, 0);
             this.previewPanel.Name = "previewPanel";
-            this.previewPanel.Size = new System.Drawing.Size(776, 690);
+            this.previewPanel.Size = new System.Drawing.Size(776, 633);
             this.previewPanel.TabIndex = 1;
             this.previewPanel.Resize += new System.EventHandler(this.preview_Resize);
             // 
@@ -697,7 +697,7 @@
             this.FMODpanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FMODpanel.Location = new System.Drawing.Point(0, 0);
             this.FMODpanel.Name = "FMODpanel";
-            this.FMODpanel.Size = new System.Drawing.Size(776, 690);
+            this.FMODpanel.Size = new System.Drawing.Size(776, 633);
             this.FMODpanel.TabIndex = 2;
             this.FMODpanel.Visible = false;
             // 
@@ -812,7 +812,7 @@
             this.fontPreviewBox.Location = new System.Drawing.Point(0, 0);
             this.fontPreviewBox.Name = "fontPreviewBox";
             this.fontPreviewBox.ReadOnly = true;
-            this.fontPreviewBox.Size = new System.Drawing.Size(776, 690);
+            this.fontPreviewBox.Size = new System.Drawing.Size(776, 633);
             this.fontPreviewBox.TabIndex = 0;
             this.fontPreviewBox.Text = resources.GetString("fontPreviewBox.Text");
             this.fontPreviewBox.Visible = false;
@@ -827,7 +827,7 @@
             this.textPreviewBox.Name = "textPreviewBox";
             this.textPreviewBox.ReadOnly = true;
             this.textPreviewBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textPreviewBox.Size = new System.Drawing.Size(776, 690);
+            this.textPreviewBox.Size = new System.Drawing.Size(776, 633);
             this.textPreviewBox.TabIndex = 2;
             this.textPreviewBox.Visible = false;
             this.textPreviewBox.WordWrap = false;
@@ -838,7 +838,7 @@
             this.glControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.glControl1.Location = new System.Drawing.Point(0, 0);
             this.glControl1.Name = "glControl1";
-            this.glControl1.Size = new System.Drawing.Size(776, 690);
+            this.glControl1.Size = new System.Drawing.Size(776, 633);
             this.glControl1.TabIndex = 4;
             this.glControl1.Visible = false;
             this.glControl1.VSync = false;
@@ -855,7 +855,7 @@
             this.classPreviewPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.classPreviewPanel.Location = new System.Drawing.Point(0, 0);
             this.classPreviewPanel.Name = "classPreviewPanel";
-            this.classPreviewPanel.Size = new System.Drawing.Size(776, 690);
+            this.classPreviewPanel.Size = new System.Drawing.Size(776, 633);
             this.classPreviewPanel.TabIndex = 3;
             this.classPreviewPanel.Visible = false;
             // 
@@ -867,7 +867,7 @@
             this.classTextBox.Name = "classTextBox";
             this.classTextBox.ReadOnly = true;
             this.classTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.classTextBox.Size = new System.Drawing.Size(776, 690);
+            this.classTextBox.Size = new System.Drawing.Size(776, 633);
             this.classTextBox.TabIndex = 3;
             this.classTextBox.WordWrap = false;
             // 
@@ -875,7 +875,7 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 690);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 633);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(776, 22);
             this.statusStrip1.TabIndex = 2;
@@ -918,7 +918,7 @@
             this.goToSceneHierarchyToolStripMenuItem,
             this.showOriginalFileToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(304, 158);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(304, 136);
             // 
             // copyToolStripMenuItem
             // 
@@ -933,6 +933,13 @@
             this.exportSelectedAssetsToolStripMenuItem.Size = new System.Drawing.Size(303, 22);
             this.exportSelectedAssetsToolStripMenuItem.Text = "Export selected assets";
             this.exportSelectedAssetsToolStripMenuItem.Click += new System.EventHandler(this.exportSelectedAssetsToolStripMenuItem_Click);
+            // 
+            // dumpSelectedAssetsToolStripMenuItem
+            // 
+            this.dumpSelectedAssetsToolStripMenuItem.Name = "dumpSelectedAssetsToolStripMenuItem";
+            this.dumpSelectedAssetsToolStripMenuItem.Size = new System.Drawing.Size(303, 22);
+            this.dumpSelectedAssetsToolStripMenuItem.Text = "Dump selected assets";
+            this.dumpSelectedAssetsToolStripMenuItem.Click += new System.EventHandler(this.dumpSelectedAssetsToolStripMenuItem_Click);
             // 
             // exportAnimatorwithselectedAnimationClipMenuItem
             // 
@@ -958,18 +965,11 @@
             this.showOriginalFileToolStripMenuItem.Visible = false;
             this.showOriginalFileToolStripMenuItem.Click += new System.EventHandler(this.showOriginalFileToolStripMenuItem_Click);
             // 
-            // dumpSelectedAssetsToolStripMenuItem
-            // 
-            this.dumpSelectedAssetsToolStripMenuItem.Name = "dumpSelectedAssetsToolStripMenuItem";
-            this.dumpSelectedAssetsToolStripMenuItem.Size = new System.Drawing.Size(303, 22);
-            this.dumpSelectedAssetsToolStripMenuItem.Text = "Dump selected assets";
-            this.dumpSelectedAssetsToolStripMenuItem.Click += new System.EventHandler(this.dumpSelectedAssetsToolStripMenuItem_Click);
-            // 
             // AssetStudioGUIForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1264, 738);
+            this.ClientSize = new System.Drawing.Size(1264, 681);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = global::AssetStudioGUI.Properties.Resources._as;
