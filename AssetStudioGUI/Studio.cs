@@ -753,7 +753,8 @@ namespace AssetStudioGUI
                 var useFullContainerPath = false;
                 if (cubismMocs.Length > 1)
                 {
-                    var basePathSet = cubismMocs.Select(x => allContainers[x].Substring(0, allContainers[x].LastIndexOf("/"))).ToHashSet();
+                    var basePathSet = cubismMocs.Select(x => allContainers[x].Substring(0, allContainers[x].LastIndexOf("/") - "model/".Length)).ToHashSet();
+                    // var basePathSet = cubismMocs.Select(x => allContainers[x].Substring(0, allContainers[x].LastIndexOf("/"))).ToHashSet();
 
                     if (basePathSet.Count != cubismMocs.Length)
                     {
@@ -762,9 +763,22 @@ namespace AssetStudioGUI
                 }
                 var basePathList = useFullContainerPath ?
                     cubismMocs.Select(x => allContainers[x]).ToList() :
-                    cubismMocs.Select(x => allContainers[x].Substring(0, allContainers[x].LastIndexOf("/"))).ToList();
+                    cubismMocs.Select(x => allContainers[x].Substring(0, allContainers[x].LastIndexOf("/")- "model/".Length)).ToList();
+                    // cubismMocs.Select(x => allContainers[x].Substring(0, allContainers[x].LastIndexOf("/"))).ToList();
                 var lookup = allContainers.ToLookup(
-                    x => basePathList.Find(b => x.Value.Contains(b) && x.Value.Split('/').Any(y => y == b.Substring(b.LastIndexOf("/") + 1))),
+                    x =>
+                    {
+                        return basePathList.Find(b =>
+                        {
+                            if (!x.Value.Contains(b)) return false;
+                            foreach (var y in x.Value.Split('/'))
+                            {
+                                if (y == b.Substring(b.LastIndexOf("/") + 1)) return true;
+                            }
+
+                            return false;
+                        });
+                    },
                     x => x.Key
                 );
 

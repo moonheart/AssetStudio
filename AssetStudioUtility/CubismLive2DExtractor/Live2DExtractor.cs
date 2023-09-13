@@ -103,111 +103,137 @@ namespace CubismLive2DExtractor
 
             if (gameObjects.Count > 0)
             {
-                var rootTransform = gameObjects[0].m_Transform;
-                while (rootTransform.m_Father.TryGet(out var m_Father))
+                var checkedGameObjects = new HashSet<GameObject>();
+                var rootGameObjects = new HashSet<GameObject>();
+                
+                foreach (var gameObject in gameObjects)
                 {
-                    rootTransform = m_Father;
-                }
-                rootTransform.m_GameObject.TryGet(out var rootGameObject);
-                var converter = new CubismMotion3Converter(rootGameObject, animationClips.ToArray());
-                if (converter.AnimationList.Count > 0)
-                {
-                    Directory.CreateDirectory(destMotionPath);
-                }
-                foreach (ImportedKeyframedAnimation animation in converter.AnimationList)
-                {
-                    var json = new CubismMotion3Json
+                    if (checkedGameObjects.Contains(gameObject))
                     {
-                        Version = 3,
-                        Meta = new CubismMotion3Json.SerializableMeta
-                        {
-                            Duration = animation.Duration,
-                            Fps = animation.SampleRate,
-                            Loop = true,
-                            AreBeziersRestricted = true,
-                            CurveCount = animation.TrackList.Count,
-                            UserDataCount = animation.Events.Count
-                        },
-                        Curves = new CubismMotion3Json.SerializableCurve[animation.TrackList.Count]
-                    };
-                    int totalSegmentCount = 1;
-                    int totalPointCount = 1;
-                    for (int i = 0; i < animation.TrackList.Count; i++)
+                        continue;
+                    }
+
+                    checkedGameObjects.Add(gameObject);
+                    
+                    var rootTransform = gameObject.m_Transform;
+                    while (rootTransform.m_Father.TryGet(out var m_Father))
                     {
-                        var track = animation.TrackList[i];
-                        json.Curves[i] = new CubismMotion3Json.SerializableCurve
+                        m_Father.m_GameObject.TryGet(out var gameObject1);
+                        checkedGameObjects.Add(gameObject1);
+                        rootTransform = m_Father;
+                    }
+
+                    rootTransform.m_GameObject.TryGet(out var rootGameObject1);
+                    rootGameObjects.Add(rootGameObject1);
+                }
+                
+                foreach (var rootGameObject in rootGameObjects.OrderByDescending(d=>d.byteSize))
+                {
+                    var converter = new CubismMotion3Converter(rootGameObject, animationClips.ToArray());
+                    if (converter.AnimationList.Count > 0)
+                    {
+                        Directory.CreateDirectory(destMotionPath);
+                    }
+                    foreach (ImportedKeyframedAnimation animation in converter.AnimationList)
+                    {
+                        if (motions.ContainsKey(animation.Name))
                         {
-                            Target = track.Target,
-                            Id = track.Name,
-                            Segments = new List<float> { 0f, track.Curve[0].value }
-                        };
-                        for (var j = 1; j < track.Curve.Count; j++)
-                        {
-                            var curve = track.Curve[j];
-                            var preCurve = track.Curve[j - 1];
-                            if (Math.Abs(curve.time - preCurve.time - 0.01f) < 0.0001f) //InverseSteppedSegment
-                            {
-                                var nextCurve = track.Curve[j + 1];
-                                if (nextCurve.value == curve.value)
-                                {
-                                    json.Curves[i].Segments.Add(3f);
-                                    json.Curves[i].Segments.Add(nextCurve.time);
-                                    json.Curves[i].Segments.Add(nextCurve.value);
-                                    j += 1;
-                                    totalPointCount += 1;
-                                    totalSegmentCount++;
-                                    continue;
-                                }
-                            }
-                            if (float.IsPositiveInfinity(curve.inSlope)) //SteppedSegment
-                            {
-                                json.Curves[i].Segments.Add(2f);
-                                json.Curves[i].Segments.Add(curve.time);
-                                json.Curves[i].Segments.Add(curve.value);
-                                totalPointCount += 1;
-                            }
-                            else if (preCurve.outSlope == 0f && Math.Abs(curve.inSlope) < 0.0001f) //LinearSegment
-                            {
-                                json.Curves[i].Segments.Add(0f);
-                                json.Curves[i].Segments.Add(curve.time);
-                                json.Curves[i].Segments.Add(curve.value);
-                                totalPointCount += 1;
-                            }
-                            else //BezierSegment
-                            {
-                                var tangentLength = (curve.time - preCurve.time) / 3f;
-                                json.Curves[i].Segments.Add(1f);
-                                json.Curves[i].Segments.Add(preCurve.time + tangentLength);
-                                json.Curves[i].Segments.Add(preCurve.outSlope * tangentLength + preCurve.value);
-                                json.Curves[i].Segments.Add(curve.time - tangentLength);
-                                json.Curves[i].Segments.Add(curve.value - curve.inSlope * tangentLength);
-                                json.Curves[i].Segments.Add(curve.time);
-                                json.Curves[i].Segments.Add(curve.value);
-                                totalPointCount += 3;
-                            }
-                            totalSegmentCount++;
+                            continue;
                         }
-                    }
-                    json.Meta.TotalSegmentCount = totalSegmentCount;
-                    json.Meta.TotalPointCount = totalPointCount;
-
-                    json.UserData = new CubismMotion3Json.SerializableUserData[animation.Events.Count];
-                    var totalUserDataSize = 0;
-                    for (var i = 0; i < animation.Events.Count; i++)
-                    {
-                        var @event = animation.Events[i];
-                        json.UserData[i] = new CubismMotion3Json.SerializableUserData
+                        var json = new CubismMotion3Json
                         {
-                            Time = @event.time,
-                            Value = @event.value
+                            Version = 3,
+                            Meta = new CubismMotion3Json.SerializableMeta
+                            {
+                                Duration = animation.Duration,
+                                Fps = animation.SampleRate,
+                                Loop = true,
+                                AreBeziersRestricted = true,
+                                CurveCount = animation.TrackList.Count,
+                                UserDataCount = animation.Events.Count
+                            },
+                            Curves = new CubismMotion3Json.SerializableCurve[animation.TrackList.Count]
                         };
-                        totalUserDataSize += @event.value.Length;
-                    }
-                    json.Meta.TotalUserDataSize = totalUserDataSize;
+                        int totalSegmentCount = 1;
+                        int totalPointCount = 1;
+                        for (int i = 0; i < animation.TrackList.Count; i++)
+                        {
+                            var track = animation.TrackList[i];
+                            json.Curves[i] = new CubismMotion3Json.SerializableCurve
+                            {
+                                Target = track.Target,
+                                Id = track.Name,
+                                Segments = new List<float> { 0f, track.Curve[0].value }
+                            };
+                            for (var j = 1; j < track.Curve.Count; j++)
+                            {
+                                var curve = track.Curve[j];
+                                var preCurve = track.Curve[j - 1];
+                                if (Math.Abs(curve.time - preCurve.time - 0.01f) < 0.0001f) //InverseSteppedSegment
+                                {
+                                    var nextCurve = track.Curve[j + 1];
+                                    if (nextCurve.value == curve.value)
+                                    {
+                                        json.Curves[i].Segments.Add(3f);
+                                        json.Curves[i].Segments.Add(nextCurve.time);
+                                        json.Curves[i].Segments.Add(nextCurve.value);
+                                        j += 1;
+                                        totalPointCount += 1;
+                                        totalSegmentCount++;
+                                        continue;
+                                    }
+                                }
+                                if (float.IsPositiveInfinity(curve.inSlope)) //SteppedSegment
+                                {
+                                    json.Curves[i].Segments.Add(2f);
+                                    json.Curves[i].Segments.Add(curve.time);
+                                    json.Curves[i].Segments.Add(curve.value);
+                                    totalPointCount += 1;
+                                }
+                                else if (preCurve.outSlope == 0f && Math.Abs(curve.inSlope) < 0.0001f) //LinearSegment
+                                {
+                                    json.Curves[i].Segments.Add(0f);
+                                    json.Curves[i].Segments.Add(curve.time);
+                                    json.Curves[i].Segments.Add(curve.value);
+                                    totalPointCount += 1;
+                                }
+                                else //BezierSegment
+                                {
+                                    var tangentLength = (curve.time - preCurve.time) / 3f;
+                                    json.Curves[i].Segments.Add(1f);
+                                    json.Curves[i].Segments.Add(preCurve.time + tangentLength);
+                                    json.Curves[i].Segments.Add(preCurve.outSlope * tangentLength + preCurve.value);
+                                    json.Curves[i].Segments.Add(curve.time - tangentLength);
+                                    json.Curves[i].Segments.Add(curve.value - curve.inSlope * tangentLength);
+                                    json.Curves[i].Segments.Add(curve.time);
+                                    json.Curves[i].Segments.Add(curve.value);
+                                    totalPointCount += 3;
+                                }
+                                totalSegmentCount++;
+                            }
+                        }
+                        json.Meta.TotalSegmentCount = totalSegmentCount;
+                        json.Meta.TotalPointCount = totalPointCount;
 
-                    var motionPath = new JObject(new JProperty("File", $"motions/{animation.Name}.motion3.json"));
-                    motions.Add(animation.Name, new JArray(motionPath));
-                    File.WriteAllText($"{destMotionPath}{animation.Name}.motion3.json", JsonConvert.SerializeObject(json, Formatting.Indented, new MyJsonConverter()));
+                        json.UserData = new CubismMotion3Json.SerializableUserData[animation.Events.Count];
+                        var totalUserDataSize = 0;
+                        for (var i = 0; i < animation.Events.Count; i++)
+                        {
+                            var @event = animation.Events[i];
+                            json.UserData[i] = new CubismMotion3Json.SerializableUserData
+                            {
+                                Time = @event.time,
+                                Value = @event.value
+                            };
+                            totalUserDataSize += @event.value.Length;
+                        }
+                        json.Meta.TotalUserDataSize = totalUserDataSize;
+
+                        var motionPath = new JObject(new JProperty("File", $"motions/{animation.Name}.motion3.json"));
+                        motions.Add(animation.Name, new JArray(motionPath));
+                        File.WriteAllText($"{destMotionPath}{animation.Name}.motion3.json", JsonConvert.SerializeObject(json, Formatting.Indented, new MyJsonConverter()));     
+                       
+                    }
                 }
             }
 
