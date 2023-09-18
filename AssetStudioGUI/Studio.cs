@@ -750,20 +750,7 @@ namespace AssetStudioGUI
             {
                 Logger.Info($"Searching for Live2D files...");
 
-                var useFullContainerPath = false;
-                if (cubismMocs.Length > 1)
-                {
-                    var basePathSet = cubismMocs.Select(x => allContainers[x].Substring(0, allContainers[x].LastIndexOf("/") - "model/".Length)).ToHashSet();
-                    // var basePathSet = cubismMocs.Select(x => allContainers[x].Substring(0, allContainers[x].LastIndexOf("/"))).ToHashSet();
-
-                    if (basePathSet.Count != cubismMocs.Length)
-                    {
-                        useFullContainerPath = true;
-                    }
-                }
-                var basePathList = useFullContainerPath ?
-                    cubismMocs.Select(x => allContainers[x]).ToList() :
-                    cubismMocs.Select(x => allContainers[x].Substring(0, allContainers[x].LastIndexOf("/")- "model/".Length)).ToList();
+                var basePathList = cubismMocs.Select(x => allContainers[x].Substring(0, allContainers[x].LastIndexOf("/")- "model/".Length)).ToList();
                     // cubismMocs.Select(x => allContainers[x].Substring(0, allContainers[x].LastIndexOf("/"))).ToList();
                 var lookup = allContainers.ToLookup(
                     x =>
@@ -795,8 +782,7 @@ namespace AssetStudioGUI
                     Logger.Info($"[{modelCounter + 1}/{totalModelCount}] Exporting Live2D: \"{container}\"...");
                     try
                     {
-                        var modelName = useFullContainerPath ? Path.GetFileNameWithoutExtension(container) : container.Substring(container.LastIndexOf('/') + 1);
-                        container = Path.HasExtension(container) ? container.Replace(Path.GetExtension(container), "") : container;
+                        var modelName = Path.GetFileNameWithoutExtension(container);
                         var destPath = Path.Combine(baseDestPath, container) + Path.DirectorySeparatorChar;
 
                         ExtractLive2D(assets, destPath, modelName, assemblyLoader);
